@@ -1,18 +1,16 @@
-import { sentryVitePlugin } from "@sentry/vite-plugin";
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), sentryVitePlugin({
-    org: "jsm-x9",
-    project: "javascript-react"
-  }), sentryVitePlugin({
-    org: "priyobroto",
-    project: "javascript-react"
-  })],
-
+  plugins: [react()],
   build: {
-    sourcemap: true
-  }
-})
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // Adjust the limit if necessary
+  },
+});
